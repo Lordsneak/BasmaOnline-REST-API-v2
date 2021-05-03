@@ -17,6 +17,7 @@ public class UserDto implements Serializable {
 	private String encryptedPassword;
 	private String emailVerificationToken;
 	private Boolean emailVerficationStatus = false;
+	private String role;
 	
 	
 	public long getId() {
@@ -76,6 +77,13 @@ public class UserDto implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	
 	
 	

@@ -3,6 +3,8 @@ package com.basmaonline.ws.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,10 +68,10 @@ public class UserController {
 	@PostMapping(
 			consumes = {MediaType.APPLICATION_XML_VALUE ,MediaType.APPLICATION_JSON_VALUE },
 			produces = {MediaType.APPLICATION_XML_VALUE ,MediaType.APPLICATION_JSON_VALUE }
-			)
+	)
 	
 	// Method Post Pour Cree un User // deSerialize
-	public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) throws Exception {
+	public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest userRequest) throws Exception {
 		
 		if(userRequest.getFirstName().isEmpty() || userRequest.getLastName().isEmpty() || userRequest.getEmail().isEmpty() || userRequest.getPassword().isEmpty()) throw new UserException(ErrorMessage.MISSING_REQUIRED_FIELD.getErrorMessage());
 		

@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
 		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		
 		userEntity.setUserId(util.generateUserId(32));
+		userEntity.setRole("USER");
 		
 		UserEntity newUser = userRepository.save(userEntity);
 		

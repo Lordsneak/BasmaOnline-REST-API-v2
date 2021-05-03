@@ -32,14 +32,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 		.cors().and()
 		.csrf().disable()
 		.authorizeRequests()
-		.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)
-		.permitAll()
+		.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).authenticated()
+		.antMatchers("users/**", "/cat/**", "/p/**").hasAuthority("ADMIN")
 		.anyRequest()
 		.authenticated().and()
 		.addFilter(getAuthenticationFilter())
 		.addFilter(new AuthorizationFilter(authenticationManager()))
 		.sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
+		
 		
 	}
 	
@@ -51,7 +53,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 	
 	protected AuthenticationFilter getAuthenticationFilter() throws Exception {
 		final AuthenticationFilter filter = new AuthenticationFilter(authenticationManager());
-		filter.setFilterProcessesUrl("/auth/v1"); //Hna fin kandiro lien login
+		filter.setFilterProcessesUrl("/auth/v1"); //Login URL
 	return filter;
 	}
 

@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.springframework.security.core.GrantedAuthority;
+
 
 @Entity(name = "users")
-public class UserEntity implements Serializable{
+public class UserEntity implements Serializable, GrantedAuthority{
 
 	/**
 	 * 
@@ -41,6 +43,8 @@ public class UserEntity implements Serializable{
 	//@Column(columnDefinition = "boolean default false")
 	@Column(nullable = false)
 	private Boolean emailVerficationStatus = false;
+	@Column(nullable = false)
+	private String role;
 
 	public long getId() {
 		return id;
@@ -104,6 +108,19 @@ public class UserEntity implements Serializable{
 
 	public void setEmailVerficationStatus(Boolean emailVerficationStatus) {
 		this.emailVerficationStatus = emailVerficationStatus;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	@Override
+	public String getAuthority() {
+		return role;
 	}
 	
 	

@@ -47,15 +47,17 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 	
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req,HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
-		
 		String userName = ((User) auth.getPrincipal()).getUsername();
+		UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+		UserDto userDto =	userService.getUser(userName); //Recup Email Utilisateur
+		
+		
 		String token = Jwts.builder()
 				.setSubject(userName)
+				.claim("role", userDto.getRole())
 				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
 				.signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET)
 				.compact();
-		UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
-		UserDto userDto =	userService.getUser(userName); //Recup Email Utilisateur
 			
 		res.addHeader(SecurityConstants.HEADER_STRING,SecurityConstants.TOKEN_PREFIX + token);
 		
